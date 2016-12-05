@@ -11836,7 +11836,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.image.AxesImage at 0x1148f6390&gt;</pre>
+<pre>&lt;matplotlib.image.AxesImage at 0x1147dd438&gt;</pre>
 </div>
 
 </div>
@@ -14538,6 +14538,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 
     <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitLine</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">distType</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                <span class="n">param</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">reps</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">aeps</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    
     <span class="n">m</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vy</span><span class="p">)</span><span class="o">/</span><span class="n">vx</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">find_b</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
     <span class="n">x1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">y1</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">m</span><span class="p">)</span>
@@ -14562,6 +14563,8 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 <span class="sd">    this function with the weighted_img() function below</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">x_half</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    
     <span class="n">points_right</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">points_left</span> <span class="o">=</span> <span class="p">[]</span>
     
@@ -14571,14 +14574,18 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
                 <span class="n">slope</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y2</span><span class="o">-</span><span class="n">y1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x2</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">9</span><span class="p">:</span>
-                <span class="k">continue</span>
             <span class="k">if</span> <span class="n">slope</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">points_right</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">])</span>
-                <span class="n">points_right</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="n">x_half</span> <span class="ow">or</span> <span class="n">x2</span> <span class="o">&lt;</span> <span class="n">x_half</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">slope</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">3</span> <span class="ow">and</span> <span class="n">slope</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">:</span>
+                    <span class="n">points_right</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">])</span>
+                    <span class="n">points_right</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">points_left</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">])</span>
-                <span class="n">points_left</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x_half</span> <span class="ow">or</span> <span class="n">x2</span> <span class="o">&gt;</span> <span class="n">x_half</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">slope</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">1.</span> <span class="ow">and</span> <span class="n">slope</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">:</span>
+                    <span class="n">points_left</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">])</span>
+                    <span class="n">points_left</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points_left</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">draw_redline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points_left</span><span class="p">),</span> <span class="n">img</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
@@ -14654,6 +14661,9 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 
 <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
    
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">540</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">960</span><span class="p">,</span><span class="mi">540</span><span class="p">))</span>
+
     <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -14684,7 +14694,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
     <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
     <span class="n">threshold</span> <span class="o">=</span> <span class="mi">15</span>
     <span class="n">min_line_len</span> <span class="o">=</span> <span class="mi">20</span>
-    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">40</span>
     <span class="n">line_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">*</span><span class="mi">0</span> <span class="c1">#creating a blank to draw lines on</span>
 
     <span class="c1"># Run Hough on edge detected image</span>
@@ -14716,7 +14726,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -14731,7 +14741,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -14763,7 +14773,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># List of images we will run our pipeline on:</span>
@@ -14777,7 +14787,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">example_images</span><span class="p">:</span>
@@ -14826,7 +14836,7 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import everything needed to edit/save/watch video clips</span>
@@ -14841,7 +14851,7 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">process_image</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -14869,7 +14879,7 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">white_output</span> <span class="o">=</span> <span class="s1">&#39;white.mp4&#39;</span>
@@ -14896,7 +14906,7 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 221/222 [00:04&lt;00:00, 53.16it/s]
+<pre>100%|█████████▉| 221/222 [00:04&lt;00:00, 49.44it/s]
 </pre>
 </div>
 </div>
@@ -14906,8 +14916,8 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: white.mp4 
 
-CPU times: user 3.64 s, sys: 1.01 s, total: 4.66 s
-Wall time: 4.66 s
+CPU times: user 3.77 s, sys: 1.02 s, total: 4.79 s
+Wall time: 4.97 s
 </pre>
 </div>
 </div>
@@ -14928,7 +14938,7 @@ Wall time: 4.66 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -14946,7 +14956,7 @@ Wall time: 4.66 s
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
@@ -14984,7 +14994,7 @@ Wall time: 4.66 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">yellow_output</span> <span class="o">=</span> <span class="s1">&#39;yellow.mp4&#39;</span>
@@ -15011,7 +15021,7 @@ Wall time: 4.66 s
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 681/682 [00:13&lt;00:00, 50.82it/s]
+<pre>100%|█████████▉| 681/682 [00:14&lt;00:00, 47.02it/s]
 </pre>
 </div>
 </div>
@@ -15021,8 +15031,8 @@ Wall time: 4.66 s
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: yellow.mp4 
 
-CPU times: user 11.7 s, sys: 2.96 s, total: 14.6 s
-Wall time: 13.9 s
+CPU times: user 11.8 s, sys: 3.36 s, total: 15.2 s
+Wall time: 15 s
 </pre>
 </div>
 </div>
@@ -15033,7 +15043,7 @@ Wall time: 13.9 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -15051,7 +15061,7 @@ Wall time: 13.9 s
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
@@ -15096,13 +15106,11 @@ Wall time: 13.9 s
 <li>Draw a line for each group using the linear fit parameters;</li>
 <li>Return the same image with the two lines drawn on top.</li>
 </ul>
-<p>Given that it's the first time I play with these sorts of tools for computer vision I am happy with the results, specially applying it to the videos!
-But there's still too much jiggle in the lane lines, specially for the second video. I am not sure how I'll try to reduce this. I haven't played too much with all the parameters yet. I believe the edge algorithm can be improved.
-Also, some of the values we're using are basically hard coded into the pipeline function. I would like to avoid that and write some more robust code to try to find lanes in any image with the only assumption that the lanes are more or less in the center of the image and looking foward.
-It is easy to see that because of that hard coding, the challenge video completely fails. One would need to alter the values of the parameters to be able to do a better job. So I wanna try to do this tomorrow.</p>
-<p>Also, the second video shows lanes with a slight curvature. I believe the way we wrote this pipeline will never get curvature in a nice way. We can try to fit a polynom to the points found in the Hough stage instead of fitting a line.
-But I am not sure how to implement this code in that case.</p>
-<h3 id="Question:">Question:<a class="anchor-link" href="#Question:">&#182;</a></h3><p>Is it alright to submmit this again if I can work more on this and get a nice job for the other 2 videos?</p>
+<p>Given that it's the first time I play with these sorts of tools for computer vision I am happy with the results, specially applying it to the videos! It was a really cool projecto to work on!
+But there's still things I wanna improve. I think the lines still jiggle a bit and it would be a lot nicer to try to make them smoother. I am not sure how I'll try to reduce this. I haven't checked all the parameters exhaustively, I believe there's room for improvement there.
+Also, some of the values we're using are basically hard coded into the pipeline function. I would like to avoid that and write some more robust code to try to find lanes in any image with the only assumption that the lanes are more or less in the center of the image and looking foward.</p>
+<p>The video provided for the challenge has different dimensions than the previous 2. Because of the way my region of interested was coded, I had to do a check for the image dimensions and rescale the image to the same dimension as 'expected'. It would be nicer to make it independent of dimension and find some smarter way to define a region of interest without hard coding the numbers there. I'll try to play with these numbers some more.</p>
+<p>The main issue I am having right now is for a few frames in the challenge video I lose the left lane. I believe the main reason for this is curvature. I will have to think how to address curves. This challenge video in particular does not have a very sharp curve, so I imagine that it is easy for the algorithm to really fail in some highway exits or something similar. I'd like to play some more with this idea and extent the algorithm for curves, but for a first attempt I am very satisfied with these results!!</p>
 
 </div>
 </div>
@@ -15129,7 +15137,7 @@ But I am not sure how to implement this code in that case.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">challenge_output</span> <span class="o">=</span> <span class="s1">&#39;extra.mp4&#39;</span>
@@ -15156,7 +15164,7 @@ But I am not sure how to implement this code in that case.</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 251/251 [00:11&lt;00:00, 22.35it/s]
+<pre>100%|██████████| 251/251 [00:06&lt;00:00, 36.30it/s]
 </pre>
 </div>
 </div>
@@ -15166,8 +15174,8 @@ But I am not sure how to implement this code in that case.</p>
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: extra.mp4 
 
-CPU times: user 8.93 s, sys: 2.73 s, total: 11.7 s
-Wall time: 12.2 s
+CPU times: user 6.84 s, sys: 1.65 s, total: 8.5 s
+Wall time: 7.46 s
 </pre>
 </div>
 </div>
@@ -15178,7 +15186,7 @@ Wall time: 12.2 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -15196,7 +15204,7 @@ Wall time: 12.2 s
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
@@ -15211,16 +15219,6 @@ Wall time: 12.2 s
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Challenge">Challenge<a class="anchor-link" href="#Challenge">&#182;</a></h1><p>Note to self: Need to start by resizing the fig. The lanes are being found in wrong points.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
