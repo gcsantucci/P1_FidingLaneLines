@@ -11836,7 +11836,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.image.AxesImage at 0x1147dd438&gt;</pre>
+<pre>&lt;matplotlib.image.AxesImage at 0x114110390&gt;</pre>
 </div>
 
 </div>
@@ -14489,6 +14489,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">scipy.misc</span>
 
 <span class="k">def</span> <span class="nf">grayscale</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Applies the Grayscale transform</span>
@@ -14686,6 +14687,8 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
     <span class="n">horizon</span> <span class="o">=</span> <span class="mf">0.58</span><span class="o">*</span><span class="n">y</span>
     <span class="c1">#vertices = np.array([[(0.15*x,y),(0.45*x, horizon), (0.52*x, horizon), (x,y)]], dtype=np.int32)</span>
     <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[(</span><span class="mi">150</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">315</span><span class="p">),</span> <span class="p">(</span><span class="mi">490</span><span class="p">,</span> <span class="mi">315</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="c1">#vertices = np.array([[(100,y),(450, horizon),(500,horizon),(250, y),</span>
+    <span class="c1">#                      (800,y),(500, horizon), (550, horizon), (950,y)]], dtype=np.int32)</span>
     <span class="n">edges_masked</span> <span class="o">=</span> <span class="n">region_of_interest</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)</span>
     
     <span class="c1"># Define the Hough transform parameters</span>
@@ -14714,7 +14717,7 @@ SCONNFKg/wER7tXwK5admQAAAABJRU5ErkJggg==
         <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">combo2</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">combo2</span><span class="p">)</span>  
+        <span class="n">scipy</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">combo2</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">combo2</span>
 </pre></div>
@@ -14906,7 +14909,7 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 221/222 [00:04&lt;00:00, 49.44it/s]
+<pre>100%|█████████▉| 221/222 [00:04&lt;00:00, 52.32it/s]
 </pre>
 </div>
 </div>
@@ -14916,8 +14919,8 @@ Looking for lanes in image whiteCarLaneSwitch.jpg.
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: white.mp4 
 
-CPU times: user 3.77 s, sys: 1.02 s, total: 4.79 s
-Wall time: 4.97 s
+CPU times: user 3.68 s, sys: 1.03 s, total: 4.71 s
+Wall time: 4.74 s
 </pre>
 </div>
 </div>
@@ -15021,7 +15024,7 @@ Wall time: 4.97 s
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 681/682 [00:14&lt;00:00, 47.02it/s]
+<pre>100%|█████████▉| 681/682 [00:13&lt;00:00, 50.84it/s]
 </pre>
 </div>
 </div>
@@ -15031,8 +15034,8 @@ Wall time: 4.97 s
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: yellow.mp4 
 
-CPU times: user 11.8 s, sys: 3.36 s, total: 15.2 s
-Wall time: 15 s
+CPU times: user 11.5 s, sys: 3.32 s, total: 14.8 s
+Wall time: 13.9 s
 </pre>
 </div>
 </div>
@@ -15111,6 +15114,8 @@ But there's still things I wanna improve. I think the lines still jiggle a bit a
 Also, some of the values we're using are basically hard coded into the pipeline function. I would like to avoid that and write some more robust code to try to find lanes in any image with the only assumption that the lanes are more or less in the center of the image and looking foward.</p>
 <p>The video provided for the challenge has different dimensions than the previous 2. Because of the way my region of interested was coded, I had to do a check for the image dimensions and rescale the image to the same dimension as 'expected'. It would be nicer to make it independent of dimension and find some smarter way to define a region of interest without hard coding the numbers there. I'll try to play with these numbers some more.</p>
 <p>The main issue I am having right now is for a few frames in the challenge video I lose the left lane. I believe the main reason for this is the change in color in the track. When the car passes to the new color asphalt, the edge detection algorithm completely misses the yellow lane. Also, it starts fiding some new edges like the left part of the bridge. Then the Hough transform part finds a lane anywhere but where it should. I think playing more with the edge detection parameters will improve this a lot. An initial attempt will be to lower the treshold that I am using to see if it finds the change in gradient between yellow and the light asphalt. If it does, then it should improve that part, but maybe starts introducing noise somewhere else. So I'll have to play with it for a while.</p>
+<p>Another idea that I started implementing but didn't quite finish yet (it's one of the comented vertices in my pipeline) is to have to polynoms to mask. One for each lane instead of one for both.
+This way we can set the edge treshold really low, but only apply Hough transforms on these smaller regions. Doing this plus applying some tighter localization cut (not only left-right plane like I did so far) might siginificantly reduce noise. It's something that I wanna trying doing next.</p>
 <p>But for a first attempt I am very satisfied with these results!!</p>
 
 </div>
@@ -15165,7 +15170,7 @@ Also, some of the values we're using are basically hard coded into the pipeline 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 251/251 [00:06&lt;00:00, 36.30it/s]
+<pre>100%|██████████| 251/251 [00:06&lt;00:00, 37.25it/s]
 </pre>
 </div>
 </div>
@@ -15175,8 +15180,8 @@ Also, some of the values we're using are basically hard coded into the pipeline 
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: extra.mp4 
 
-CPU times: user 6.84 s, sys: 1.65 s, total: 8.5 s
-Wall time: 7.46 s
+CPU times: user 6.78 s, sys: 1.83 s, total: 8.61 s
+Wall time: 7.26 s
 </pre>
 </div>
 </div>
